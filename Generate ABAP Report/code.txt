@@ -1,0 +1,29 @@
+REPORT z_generated_code.
+
+TABLES: EQKT.
+
+*--- Declarations ---
+TYPES: BEGIN OF ty_eqkt,
+         equnr TYPE eqkt-equnr,
+         spras TYPE eqkt-spras,
+         eqktx TYPE eqkt-eqktx,
+       END OF ty_eqkt.
+DATA: it_eqkt TYPE STANDARD TABLE OF ty_eqkt.
+
+*--- Selection Screen ---
+PARAMETERS p_equnr TYPE eqkt-equnr.
+
+*--- Main Processing ---
+SELECT equnr spras eqktx INTO TABLE it_eqkt FROM eqkt
+  WHERE equnr = p_equnr.
+
+*--- Display Output ---
+cl_salv_table=>factory(
+  EXPORTING
+    list_display = abap_true
+  IMPORTING
+    r_salv_table = DATA(lr_salv_table)
+  CHANGING
+    t_table      = it_eqkt ).
+
+lr_salv_table->display( ).
