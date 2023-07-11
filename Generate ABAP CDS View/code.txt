@@ -1,0 +1,17 @@
+@AbapCatalog.sqlViewName: 'ZEMPLOYEE_SALARY_VIEW'
+@AbapCatalog.compiler.compareFilter: true
+@AccessControl.authorizationCheck: #NOT_REQUIRED
+
+define view ZEmployeeSalaryView
+  as select from Employees
+  inner join Departments on Employees.Department_Id = Departments.Department_Id
+  inner join Salaries on Employees.Employee_Id = Salaries.Employee_Id
+{
+  key Employees.Employee_Id as Employee_ID,
+  Employees.First_Name,
+  Employees.Last_Name,
+  Departments.Department_Name,
+  Salaries.Salary_Amount,
+  Salaries.Currency
+}
+where Departments.Department_Name = 'Sales' and Salaries.Salary_Amount > 5000;
